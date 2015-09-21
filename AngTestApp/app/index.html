@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>My AngularJS App</title>
+
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="bootstrap.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.js"></script>
+    <script src="ui-bootstrap-tpls-0.13.4.js"></script>
+    <script src="app.js"></script>
+</head>
+<body>
+    <form ng-controller="timeCtrl" novalidate>
+        <br/>
+        Time zone:
+        <input type="number" max="12" min="-12" ng-model="currentCity.zone" required class="form-control"/>
+        <br/>
+        City name:
+        <input type="text" ng-model="currentCity.name"
+               typeahead="city for city in cityList | filter:$viewValue| limitTo:8"
+               class="form-control" ng-change="getCityList(currentCity.name)"
+               typeahead-min-length="3"
+               typeahead-wait-ms="500"
+                />
+        <br/>
+        <button ng-show="!editMode" ng-click="add()" class="btn btn-primary">Add</button>
+        <button ng-show="editMode"  ng-click="save()" class="btn btn-success">Save</button>
+        <button ng-show="editMode" ng-click="cancel()" class="btn btn-danger">Cancel</button>
+        <br/><br/>
+        Search:
+        <input type="text" ng-model="search" class="form-control"/> <button ng-click="search = ''" class="btn btn-primary">Clear</button>
+        <br/><br/>
+        <div style="overflow:hidden;">
+            <div ng-repeat="c in cities | filter: search" class="div-col">
+                Time: {{(time+hourInMs*c.zone )| date:"hh:mm:ss"}}, <br/>
+                Zone: {{c.zone}}, <br/>
+                City: {{c.name}} <br/>
+                <button ng-click="edit(c)" class="btn btn-default">Edit</button>
+                <button ng-click="delete(c)" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+        <br/>
+    </form>
+</body>
+</html>
